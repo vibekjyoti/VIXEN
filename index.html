@@ -3,223 +3,463 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VIXEN OTT - Download Now</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <title>Vixen OTT - Watch Movies & Series</title>
     <style>
+        /* CSS Variables & Reset */
+        :root {
+            --primary-bg: #0f0f13;
+            --secondary-bg: #1a1a20;
+            --accent-color: #ff0055;
+            --text-main: #ffffff;
+            --text-muted: #a0a0a0;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000000;
-            color: #ffffff;
+            background-color: var(--primary-bg);
+            color: var(--text-main);
             overflow-x: hidden;
         }
 
-        /* --- NAVIGATION --- */
-        nav {
-            position: absolute;
+        /* Navigation Bar */
+        header {
+            position: fixed;
             top: 0;
             width: 100%;
-            padding: 24px 50px;
+            padding: 20px 50px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 10;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+            z-index: 1000;
+            transition: background 0.3s, padding 0.3s;
+        }
+
+        header.scrolled {
+            background: rgba(15, 15, 19, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
         }
 
         .logo {
-            color: #E50914;
-            font-size: 32px;
-            font-weight: 900;
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--accent-color);
+            text-transform: uppercase;
             letter-spacing: 2px;
-            text-decoration: none;
         }
 
-        /* --- HERO SECTION --- */
-        .hero {
-            height: 100vh;
-            width: 100vw;
+        nav ul {
             display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            background: linear-gradient(
-                to bottom,
-                rgba(0, 0, 0, 0.6) 0%,
-                rgba(0, 0, 0, 0.2) 40%,
-                rgba(0, 0, 0, 0.9) 80%,
-                #000000 100%
-            ),
-            url('https://images.unsplash.com/photo-1534447677768-be436bb09401?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
-            padding: 0 20px;
+            list-style: none;
+            gap: 25px;
         }
 
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 900;
-            margin-bottom: 16px;
-            max-width: 800px;
-            line-height: 1.1;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
+        nav ul li a {
+            color: var(--text-main);
+            text-decoration: none;
             font-weight: 500;
-            margin-bottom: 12px;
-            color: #e5e5e5;
+            transition: color 0.3s;
         }
 
-        .hero .tags {
-            font-size: 1rem;
-            color: #a3a3a3;
-            margin-bottom: 40px;
-            font-weight: 500;
+        nav ul li a:hover {
+            color: var(--accent-color);
         }
 
-        /* --- DOWNLOAD BUTTON --- */
-        .download-btn {
-            background-color: #E50914;
+        .btn-download {
+            background-color: var(--accent-color);
             color: white;
-            font-size: 1.2rem;
-            font-weight: 700;
-            padding: 16px 40px;
-            border-radius: 4px;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 12px;
-            transition: background-color 0.2s ease, transform 0.1s ease;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.3s, background 0.3s;
         }
 
-        .download-btn:hover {
-            background-color: #f6121d;
+        .btn-download:hover {
+            background-color: #d40047;
+            transform: scale(1.05);
         }
 
-        .download-btn:active {
-            transform: scale(0.98);
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2070&auto=format&fit=crop') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            padding: 0 50px;
         }
 
-        .download-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(90deg, rgba(15,15,19,1) 0%, rgba(15,15,19,0.6) 50%, rgba(15,15,19,0) 100%),
+                        linear-gradient(0deg, rgba(15,15,19,1) 0%, transparent 20%);
         }
 
-        /* --- FEATURES SECTION --- */
-        .features {
-            padding: 80px 50px;
-            background-color: #000000;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 600px;
         }
 
-        .feature-card {
-            background-color: #121212;
-            padding: 40px 30px;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid #1A1A1A;
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-card svg {
-            width: 48px;
-            height: 48px;
-            fill: #E50914;
+        .hero-content h1 {
+            font-size: clamp(36px, 5vw, 56px);
+            line-height: 1.2;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
         }
 
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-            font-weight: 700;
-        }
-
-        .feature-card p {
-            color: #999999;
+        .hero-content p {
+            font-size: clamp(16px, 2vw, 18px);
+            color: var(--text-muted);
+            margin-bottom: 30px;
             line-height: 1.6;
         }
 
-        /* --- FOOTER --- */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: #666;
-            font-size: 0.9rem;
-            border-top: 1px solid #1A1A1A;
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
         }
 
-        /* Responsive */
+        .btn-play {
+            background-color: white;
+            color: black;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-play:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Sliders / Rows */
+        .content-section {
+            padding: 40px 50px;
+            position: relative;
+            z-index: 10;
+            margin-top: -80px;
+        }
+
+        .row-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .movie-row {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            scrollbar-width: none; /* Firefox */
+            scroll-snap-type: x mandatory;
+        }
+
+        .movie-row::-webkit-scrollbar {
+            display: none; /* Chrome */
+        }
+
+        .movie-card {
+            min-width: 200px;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+            scroll-snap-align: start;
+        }
+
+        .movie-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s;
+        }
+
+        .movie-card:hover {
+            transform: scale(1.05);
+            z-index: 2;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+        }
+
+        .movie-info {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            transition: bottom 0.3s;
+        }
+
+        .movie-card:hover .movie-info {
+            bottom: 0;
+        }
+
+        .movie-info h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        /* Footer CTA */
+        .footer-cta {
+            text-align: center;
+            padding: 80px 20px;
+            background-color: var(--secondary-bg);
+        }
+
+        .footer-cta h2 {
+            font-size: clamp(28px, 4vw, 36px);
+            margin-bottom: 20px;
+        }
+
+        .footer-cta p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #000;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        /* =========================================
+           MOBILE RESPONSIVENESS
+           ========================================= */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero p { font-size: 1.2rem; }
-            nav { padding: 20px; justify-content: center; }
-            .features { padding: 60px 20px; }
+            header { 
+                padding: 15px 20px; 
+            }
+            .logo { 
+                font-size: 22px; 
+            }
+            nav ul { 
+                display: none; /* Hide standard nav on mobile */
+            }
+            .btn-download {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+
+            .hero { 
+                padding: 0 20px; 
+                text-align: center; 
+                justify-content: center;
+            }
+            .hero::before {
+                /* Change gradient so text is readable when centered */
+                background: linear-gradient(0deg, rgba(15,15,19,1) 0%, rgba(15,15,19,0.7) 40%, rgba(15,15,19,0.3) 100%);
+            }
+            .hero-content { 
+                margin: 0 auto; 
+                margin-top: 60px; /* Offset for header */
+            }
+            .hero-buttons { 
+                flex-direction: column; 
+                gap: 12px; 
+            }
+            .btn-play, .hero-buttons .btn-download {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .content-section { 
+                padding: 20px; 
+                margin-top: -40px; 
+            }
+            .row-title {
+                font-size: 18px;
+            }
+
+            /* Adjust cards for smaller screens */
+            .movie-card {
+                min-width: 140px;
+                height: 210px;
+            }
+            
+            /* Disable hover effects on mobile and make titles always visible */
+            .movie-card:hover {
+                transform: none; 
+            }
+            .movie-info {
+                bottom: 0; /* Always show title on mobile */
+                padding: 10px;
+                background: linear-gradient(to top, rgba(0,0,0,1), transparent);
+            }
+            .movie-info h4 {
+                font-size: 13px;
+            }
+
+            .footer-cta {
+                padding: 60px 20px;
+            }
+            .footer-cta .btn-download {
+                width: 100%;
+                padding: 15px;
+                font-size: 18px !important;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Navigation -->
-    <nav>
-        <a href="#" class="logo">VIXEN</a>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <h1>Cinematic Streaming, Right in Your Pocket.</h1>
-        <p>Unlimited movies, shows, and high-octane action.</p>
-        <div class="tags">Gritty • Suspenseful • Sci-Fi</div>
-        
-        <!-- Replace href="#" with your actual APK download link (e.g., Google Drive link or direct Vercel file path) -->
-        <a href="app-debug.apk" class="download-btn" download>
-            <!-- Android Icon SVG -->
-            <svg viewBox="0 0 24 24">
-                <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4483-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592c.1158-.2006.0469-.4573-.1536-.5731-.2005-.1156-.4569-.0469-.5727.1536l-2.0298 3.5158C15.722 8.3516 13.9317 7.9333 12 7.9333s-3.722.4183-5.1227 1.025L4.8475 5.4423c-.1158-.2005-.3725-.2692-.5731-.1536-.2006.1158-.2694.3725-.1536.5731l1.9972 3.4592C2.6953 11.218 0 14.8697 0 19.1667h24c0-4.297-2.6953-7.9487-6.1185-9.8453"/>
-            </svg>
-            Download APK
+    <!-- Header -->
+    <header id="navbar">
+        <div class="logo">Vixen OTT</div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">TV Shows</a></li>
+                <li><a href="#">Movies</a></li>
+                <li><a href="#">New & Popular</a></li>
+            </ul>
+        </nav>
+        <a href="app" class="btn-download">
+            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            <span class="btn-text">Download APK</span>
         </a>
-    </section>
+    </header>
 
-    <!-- Features Section -->
-    <section class="features">
-        <div class="feature-card">
-            <!-- Cloud Icon -->
-            <svg viewBox="0 0 24 24"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z"/></svg>
-            <h3>Cloud Synced</h3>
-            <p>Powered by Firebase. Your watchlist, profiles, and continues-watching history perfectly sync across all your devices.</p>
-        </div>
-        
-        <div class="feature-card">
-            <!-- Play Icon -->
-            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <h3>Zero Buffering</h3>
-            <p>Utilizing high-speed Drive architecture to deliver immediate 1080p and 4K playback without the heavy subscription fees.</p>
-        </div>
-
-        <div class="feature-card">
-            <!-- Download Icon -->
-            <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
-            <h3>Smart Downloads</h3>
-            <p>Going off grid? Save your favorite movies and shows directly to your local storage to watch on the plane or commute.</p>
+    <!-- Hero Banner -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Unlimited Movies, TV Shows, and More.</h1>
+            <p>Stream your favorite content anywhere, anytime. Download the official Vixen OTT app for the best experience on your mobile device.</p>
+            <div class="hero-buttons">
+                <button class="btn-play">▶ Play Now</button>
+                <a href="#download" class="btn-download" style="font-size: 18px;">Download APK</a>
+            </div>
         </div>
     </section>
 
+    <!-- Trending Section -->
+    <section class="content-section">
+        <h2 class="row-title">Trending Now</h2>
+        <div class="movie-row">
+            <div class="movie-card">
+                <img src="https://image.tmdb.org/t/p/w500/8cdWjvZQUrmU20k40GEnj7t31P.jpg" alt="Movie">
+                <div class="movie-info"><h4>Cyberpunk City</h4></div>
+            </div>
+            <div class="movie-card">
+                <img src="https://image.tmdb.org/t/p/w500/A4j8S6moJS2zNtRR8oWF08gRnL5.jpg" alt="Movie">
+                <div class="movie-info"><h4>The Last Stand</h4></div>
+            </div>
+            <div class="movie-card">
+                <img src="https://image.tmdb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg" alt="Movie">
+                <div class="movie-info"><h4>Space Voyage</h4></div>
+            </div>
+            <div class="movie-card">
+                <img src="https://image.tmdb.org/t/p/w500/xUfRZu2mi8jH6yq2dicn03V53U.jpg" alt="Movie">
+                <div class="movie-info"><h4>Dark Mystery</h4></div>
+            </div>
+            <div class="movie-card">
+                <img src="https://image.tmdb.org/t/p/w500/rzRwTcFvttcN1ZpX2xv4j3tAQeC.jpg" alt="Movie">
+                <div class="movie-info"><h4>Neon Nights</h4></div>
+            </div>
+            <div class="movie-card">
+                <img src="https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg" alt="Movie">
+                <div class="movie-info"><h4>Future War</h4></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Originals Section -->
+    <section class="content-section" style="margin-top: 0;">
+        <h2 class="row-title">Vixen Originals</h2>
+        <div class="movie-row">
+            <div class="movie-card">
+                <img src="https://image.tmdb.org/t/p/w500/pB8BM7pdSp6B6Ih7QZ4DrQ3PmJK.jpg" alt="Movie">
+                <div class="movie-info"><h4>Shadows</h4></div>
+            </div>
+            <div class="movie-card">
+                <img src="https://image.tmdb.org/t/p/w500/t6HIqrNDIGGLtpo2iQkK85vNfX3.jpg" alt="Movie">
+                <div class="movie-info"><h4>The Awakening</h4></div>
+            </div>
+            <div class="movie-card">
+                <img src="https://image.tmdb.org/t/p/w500/sF1U4EUQS8YHUYjNl3pMGNIQyr0.jpg" alt="Movie">
+                <div class="movie-info"><h4>Eclipse</h4></div>
+            </div>
+            <div class="movie-card">
+                <img src="https://image.tmdb.org/t/p/w500/w46Vw536HwNnEzOa7J24wD76A5b.jpg" alt="Movie">
+                <div class="movie-info"><h4>Undercover</h4></div>
+            </div>
+            <div class="movie-card">
+                <img src="https://image.tmdb.org/t/p/w500/7WsyChQLEftFiDOVTGkv3hFpyyt.jpg" alt="Movie">
+                <div class="movie-info"><h4>Rogue</h4></div>
+            </div>
+            <div class="movie-card">
+                <img src="https://image.tmdb.org/t/p/w500/8cdWjvZQUrmU20k40GEnj7t31P.jpg" alt="Movie">
+                <div class="movie-info"><h4>Lost Time</h4></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download CTA Section -->
+    <section id="download" class="footer-cta">
+        <h2>Get the Vixen OTT App</h2>
+        <p>Watch ad-free in HD on your Android device. Download the official APK directly from our servers.</p>
+        <a href="vixen_ott_v1.0.apk" download class="btn-download" style="display: inline-flex; font-size: 20px; padding: 15px 40px; max-width: 400px; margin: 0 auto;">
+            <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Download Vixen OTT APK
+        </a>
+        <p style="margin-top: 15px; font-size: 12px; color: #666;">Version 1.0.4 | Size: 24MB | Requires Android 7.0+</p>
+    </section>
+
+    <!-- Footer -->
     <footer>
-        <p>&copy; 2026 VIXEN OTT. All rights reserved.</p>
+        <p>&copy; 2026 Vixen OTT. All rights reserved.</p>
     </footer>
 
+    <!-- Simple Scripts -->
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for download buttons
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </body>
 </html>
